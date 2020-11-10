@@ -8,6 +8,7 @@ package com.hhd.websocket.bean;
  */
 public class MyMessage {
     private Long fromUser;
+    private String fromUsername;
     private Long toUser;
     private String message;
     private Integer type;
@@ -15,8 +16,9 @@ public class MyMessage {
     public MyMessage() {
     }
 
-    public MyMessage(Long fromUser, Long toUser, String message, Integer type) {
+    public MyMessage(Long fromUser, String fromUsername, Long toUser, String message, Integer type) {
         this.fromUser = fromUser;
+        this.fromUsername = fromUsername;
         this.toUser = toUser;
         this.message = message;
         this.type = type;
@@ -28,6 +30,14 @@ public class MyMessage {
 
     public void setFromUser(Long fromUser) {
         this.fromUser = fromUser;
+    }
+
+    public String getFromUsername() {
+        return fromUsername;
+    }
+
+    public void setFromUsername(String fromUsername) {
+        this.fromUsername = fromUsername;
     }
 
     public Long getToUser() {

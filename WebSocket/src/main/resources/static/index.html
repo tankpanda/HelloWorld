@@ -18,10 +18,10 @@
 </textarea>
 <br/>
 <input type="text" id="message"/>
-<input type="text" id="userId"/>
 <input type="button" value="send" name="send" onclick="sendMessage()"/>
 <br/>
 <dev id = "friendsList" style="width: 50px; height: 100px">
+    <input type="radio" value="0" name="toUser" id="friendsId-all"/>all<br>
 </dev>
 
 <script type="text/javascript">
@@ -44,22 +44,26 @@
         };
         //收到消息事件
         socket.onmessage = function(msg) {
-            var result = JSON.parse(msg.data);
-            if (result.type == 1) {
-                $("#messageId").append(result.fromUser + ":" + result.message + "\n");
+            var data = JSON.parse(msg.data);
+            console.info(data);
+            if (data.type == 1) {
+                console.info(data.message);
+                $("#messageId").append(data.fromUsername + ":" + data.message + "\n");
             }
-            if (result.type == 2) {
-                var friends = JSON.parse(result.message);
+            if (data.type == 2) {
+                var friends = JSON.parse(data.message);
                 for (let i in friends) {
-                    $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + friends[i].id + "\" value=\"" + friends[i].username + "\"/>");
+                    // $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + friends[i].id + "\" value=\"" + friends[i].username + "\"/>");
+                    $("#friendsList").append("<input type=\"radio\" value=\"" + friends[i].id + "\" name=\"toUser\" id=\"friendsId-" + friends[i].id + "\"/>" + friends[i].username + "<br>");
                 }
             }
-            if (result.type == 3) {
-                var user = JSON.parse(result.message);
-                $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + user.id + "\" value=\"" + user.username + "\"/>");
+            if (data.type == 3) {
+                var user = JSON.parse(data.message);
+                // $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + user.id + "\" value=\"" + user.username + "\"/>");
+                $("#friendsList").append("<input type=\"radio\" value=\"" + user.id + "\" name=\"toUser\" id=\"friendsId-" + user.id + "\"/>" + user.username + "<br>");
             }
-            if (result.type == 4) {
-                var user = JSON.parse(result.message);
+            if (data.type == 4) {
+                var user = JSON.parse(data.message);
                 document.getElementById("friendsId-" + user.id).remove();
             }
         };
@@ -79,7 +83,7 @@
 
     function sendMessage() {
         if ($("#message").val() && ($("#userId").val() >= 0)) {
-            var param = {fromUser: userId, message: $("#message").val(), toUser: $("#userId").val()};
+            var param = {fromUser: userId, message: $("#message").val(), toUser: $("input[type='radio']:checked").val()};
             socket.send(JSON.stringify(param));
         }
     }

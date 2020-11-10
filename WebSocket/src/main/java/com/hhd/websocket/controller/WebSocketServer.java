@@ -1,12 +1,9 @@
 package com.hhd.websocket.controller;
 
 import com.google.gson.Gson;
-import com.hhd.websocket.bean.Friend;
-import com.hhd.websocket.bean.MyMessage;
-import com.hhd.websocket.bean.User;
+import com.hhd.websocket.bean.*;
 import com.hhd.websocket.enums.MessageTypeEnum;
 import com.hhd.websocket.service.UserService;
-import com.hhd.websocket.vo.FriendVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -80,7 +77,7 @@ public class WebSocketServer {
         try {
             Session toUserSession = getSessionByUserId(toUser);
             Session fromUserSession = getSessionByUserId(fromUser);
-            MyMessage msg = new MyMessage(fromUser, toUser, message, type);
+            MyMessage msg = new MyMessage(fromUser, userService.getUserByUserId(fromUser).getUsername(), toUser, message, type);
             if (fromUserSession != null) {
                 fromUserSession.getBasicRemote().sendText(new Gson().toJson(msg));
             }
@@ -96,7 +93,7 @@ public class WebSocketServer {
         try {
             Long fromUser = getUserIdBySession(session);
             Session toUserSession = getSessionByUserId(toUser);
-            MyMessage msg = new MyMessage(fromUser, toUser, message, type);
+            MyMessage msg = new MyMessage(fromUser, userService.getUserByUserId(fromUser).getUsername(), toUser, message, type);
             if (toUserSession != null) {
                 toUserSession.getBasicRemote().sendText(new Gson().toJson(msg));
             }
@@ -112,7 +109,7 @@ public class WebSocketServer {
                 Long fromUser = getUserIdBySession(session);
                 Long toUser = entry.getKey();
                 Session toUserSession = getSessionByUserId(toUser);
-                MyMessage msg = new MyMessage(fromUser, toUser, message, MessageTypeEnum.MSG.getCode());
+                MyMessage msg = new MyMessage(fromUser, userService.getUserByUserId(fromUser).getUsername(), toUser, message, MessageTypeEnum.MSG.getCode());
                 toUserSession.getBasicRemote().sendText(new Gson().toJson(msg));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -141,7 +138,7 @@ public class WebSocketServer {
     }
 
     private void sendOnlineMessage(Long userId) {
-        List<User> myFriendList = userService.getUserListByUserId(userId);
+        List<User> myFriendList = userService.getFriendUserListByUserId(userId);
         myFriendList = myFriendList.stream().filter(x -> SESSIONS_MAP.keySet().contains(x.getId())).collect(Collectors.toList());
         sendMessage2One(0L, new Gson().toJson(myFriendList), userId, MessageTypeEnum.FRIENDS_MY.getCode());
         FriendVO friendVO = userService.getFriendByFriendId(userId);
@@ -157,13 +154,6 @@ public class WebSocketServer {
         friendVO.getFriends().stream().filter(x -> SESSIONS_MAP.keySet().contains(x.getUserId())).forEach(x -> {
             sendMessage2One(0L, new Gson().toJson(friendVO.getUser()), x.getUserId(), MessageTypeEnum.FRIENDS_OFFLINE.getCode());
         });
-
-
-//        List<Friend> friendMyList = userService.getFriendByFriendId(userId);
-//        friendMyList = friendMyList.stream().filter(x -> SESSIONS_MAP.keySet().contains(x.getFriendId())).collect(Collectors.toList());
-//        friendMyList.forEach(x -> {
-//            sendMessage2One(0L, new Gson().toJson(x), x.getUserId(), MessageTypeEnum.FRIENDS_OFFLINE.getCode());
-//        });
     }
 
     @Autowired

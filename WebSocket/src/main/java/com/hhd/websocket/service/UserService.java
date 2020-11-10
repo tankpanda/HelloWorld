@@ -2,15 +2,11 @@ package com.hhd.websocket.service;
 
 import com.hhd.websocket.bean.Friend;
 import com.hhd.websocket.bean.User;
-import com.hhd.websocket.vo.FriendVO;
+import com.hhd.websocket.bean.FriendVO;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.ToLongBiFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -26,11 +22,14 @@ public class UserService {
     private static final List<Friend> FRIEND_LIST;
 
     static {
+        // TODO 可以改造成mysql
         USER_LIST = new ArrayList<>();
+        User system = new User(0L, "system", null);
         User hhd = new User(1L, "hhd", "hhd");
         User zs = new User(2L, "zhangsan" ,"zhangsan");
         User ls = new User(3L, "lisi" ,"lisi");
         User ww = new User(4L, "wangwu" ,"wangyu");
+        USER_LIST.add(system);
         USER_LIST.add(hhd);
         USER_LIST.add(zs);
         USER_LIST.add(ls);
@@ -68,7 +67,12 @@ public class UserService {
         return user;
     }
 
-    public List<User> getUserListByUserId(Long userId) {
+    public User getUserByUserId(Long userId) {
+        User user = USER_LIST.stream().filter(x -> userId.equals(x.getId())).findFirst().get();
+        return user;
+    }
+
+    public List<User> getFriendUserListByUserId(Long userId) {
         List<User> users = FRIEND_LIST.stream().filter(x -> userId.equals(x.getUserId())).map(x -> USER_LIST.stream().filter(y -> x.getFriendId().equals(y.getId())).findFirst().orElse(null)).collect(Collectors.toList());
         return users;
     }

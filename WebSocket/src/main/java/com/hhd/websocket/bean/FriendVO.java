@@ -1,4 +1,4 @@
-package com.hhd.websocket.vo;
+package com.hhd.websocket.bean;
 
 import com.hhd.websocket.bean.Friend;
 import com.hhd.websocket.bean.User;
