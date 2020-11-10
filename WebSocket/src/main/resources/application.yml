@@ -1,0 +1,8 @@
+spring:
+  mvc:
+    view:
+      suffix: .html
+      prefix: /
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static

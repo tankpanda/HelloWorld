@@ -1,0 +1,107 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>websocket测试</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <style type="text/css">
+        h3,h4{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+
+<h3>WebSocket测试，客户端接收到的消息如下：</h3>
+
+<textarea id = "messageId" readonly="readonly" cols="150" rows="30" >
+
+</textarea>
+<br/>
+<input type="text" id="message"/>
+<input type="text" id="userId"/>
+<input type="button" value="send" name="send" onclick="sendMessage()"/>
+<br/>
+<dev id = "friendsList" style="width: 50px; height: 100px">
+</dev>
+
+<script type="text/javascript">
+    var socket;
+    var userId = request("userId");
+    if (typeof (WebSocket) == "undefined") {
+        console.log("遗憾：您的浏览器不支持WebSocket");
+    } else {
+        console.log("恭喜：您的浏览器支持WebSocket");
+        //实现化WebSocket对象
+        //指定要连接的服务器地址与端口建立连接
+        //注意ws、wss使用不同的端口。我使用自签名的证书测试，
+        //无法使用wss，浏览器打开WebSocket时报错
+        //ws对应http、wss对应https。
+        socket = new WebSocket("ws://localhost:8080/ws/" + userId);
+        //连接打开事件
+        socket.onopen = function() {
+            console.log("Socket 已打开");
+            // socket.send("消息发送测试(From Client)");
+        };
+        //收到消息事件
+        socket.onmessage = function(msg) {
+            var result = JSON.parse(msg.data);
+            if (result.type == 1) {
+                $("#messageId").append(result.fromUser + ":" + result.message + "\n");
+            }
+            if (result.type == 2) {
+                var friends = JSON.parse(result.message);
+                for (let i in friends) {
+                    $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + friends[i].id + "\" value=\"" + friends[i].username + "\"/>");
+                }
+            }
+            if (result.type == 3) {
+                var user = JSON.parse(result.message);
+                $("#friendsList").append("<input type=\"text\" readonly=\"readonly\" id=\"friendsId-" + user.id + "\" value=\"" + user.username + "\"/>");
+            }
+            if (result.type == 4) {
+                var user = JSON.parse(result.message);
+                document.getElementById("friendsId-" + user.id).remove();
+            }
+        };
+        //连接关闭事件
+        socket.onclose = function() {
+            console.log("Socket已关闭");
+        };
+        //发生了错误事件
+        socket.onerror = function() {
+            alert("Socket发生了错误");
+        }
+        //窗口关闭时，关闭连接
+        window.unload=function() {
+            socket.close();
+        };
+    }
+
+    function sendMessage() {
+        if ($("#message").val() && ($("#userId").val() >= 0)) {
+            var param = {fromUser: userId, message: $("#message").val(), toUser: $("#userId").val()};
+            socket.send(JSON.stringify(param));
+        }
+    }
+
+
+    function request(strParame) {
+        var args = new Object();
+        var query = location.search.substring(1);
+
+        var pairs = query.split("&"); // Break at ampersand
+        for (var i = 0; i < pairs.length; i++) {
+            var pos = pairs[i].indexOf('=');
+            if (pos == -1) continue;
+            var argname = pairs[i].substring(0, pos);
+            var value = pairs[i].substring(pos + 1);
+            value = decodeURIComponent(value);
+            args[argname] = value;
+        }
+        return args[strParame];
+    }
+
+</script>
+
+</body>
+</html>
