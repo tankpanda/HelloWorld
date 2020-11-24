@@ -3,7 +3,6 @@ package com.hhd.websocket.bean;
 import java.util.List;
 
 /**
- * TODO
  *
  * @author hengda.hu
  * @date 2020/11/10 14:38

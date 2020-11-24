@@ -1,7 +1,6 @@
 package com.hhd.websocket.bean;
 
 /**
- * TODO
  *
  * @author hengda.hu
  * @date 2020/11/10 11:04
