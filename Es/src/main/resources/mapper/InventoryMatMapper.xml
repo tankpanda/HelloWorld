@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhd.es.mapper.InventoryMatMapper">
+
+    <select id="listAll" resultType="com.hhd.es.bean.InventoryMat">
+        SELECT `id`, `MAT_name` AS matName, `product_id` AS productId, `product_name` AS productName, `producer_code` AS producerCode, `product_spec_id` AS productSpecId, `product_spec_name` AS productSpecName, `product_spec_name_ext` AS productSpecNameExt, `category_id` AS categoryId, `category_name` AS categoryName, `sub_category_id` AS subCategoryId, `sub_category_name` AS subCategoryName, `detail_category_id` AS detailCategoryId, `detail_category_name` AS detailCategoryName, `brand_id` AS brandId, `brand_name` AS brandName, `stock_unit` AS stockUnit, `unit_transfer` AS unitTransfer, `sales_unit` AS salesUnit, `manage_unit` AS manageUnit, `manage_stock` AS manageStock, `img_url` AS imgUrl, `pack_name` AS packName, `bol_temporary` AS bolTemporary, `country_code` AS countryCode, `company_code` AS companyCode, `company_name` AS companyName, `materiel_code` AS materielCode, `bol_share` AS bolShare, `register_no` AS registerNo, `quality_time` AS qualityTime, `create_time` AS createTime, `update_time` AS updateTime FROM inventory_mat;
+    </select>
+
+</mapper>
