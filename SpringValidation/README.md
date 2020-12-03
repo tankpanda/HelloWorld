@@ -28,5 +28,5 @@ A表示自定义注解MyValidation T表示要处理的字段类型
 默认校验所有参数 若开启fail fast 有参数校验失败就返回
 ```
 Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory().getValidator();
-validator.valid(${bean}, ${bean.group.class});
+validator.validate(${bean}, ${bean.group.class});
 ``` 
