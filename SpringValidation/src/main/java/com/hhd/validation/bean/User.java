@@ -28,8 +28,8 @@ public class User {
     @Email(message = "not a email")
     @NotNull(message = "email is null")
     private String email;
-    @Max(value = 100, message = "age too large")
-    @Min(value = 0, message = "age too small")
+    @Max(value = 100L, message = "age too large")
+    @Min(value = 0L, message = "age too small")
     private Integer age;
 
     /**

@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("test1/{id}")
-    public String test1(@PathVariable("id") @Min(1) Integer id) {
+    public String test1(@PathVariable("id") @Min(1L) Integer id) {
         return String.valueOf(id);
     }
 }
