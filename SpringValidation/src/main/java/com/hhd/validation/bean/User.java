@@ -21,9 +21,9 @@ public class User {
 
     private Integer id;
 
-    @NotEmpty(message = "username is empty")
+    @NotEmpty(message = "username is empty", groups = {Save.class, Update.class})
     @NotBlank(message = "username is blank")
-    @Length(min = 2, max = 10)
+    @Length(min = 2, max = 10, groups = {Save.class, Update.class})
     private String username;
     @Email(message = "not a email")
     @NotNull(message = "email is null")
@@ -44,6 +44,8 @@ public class User {
     @Valid
     private List<Address> addresses;
 
+    public interface Update{}
+    public interface Save{}
 
 
     public Integer getId() {

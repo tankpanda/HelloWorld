@@ -21,7 +21,7 @@ import javax.validation.constraints.Min;
 public class UserController {
 
     @PostMapping("test")
-    public String test(@RequestBody @Validated User user) {
+    public String test(@RequestBody @Validated(User.Save.class) User user) {
         return "success";
     }
 
