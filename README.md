@@ -10,3 +10,5 @@ simple chat room with spring handler
 simple netty server
 ## es
 es with native and es repository
+## spring validation
+annotation validation & programming validation
