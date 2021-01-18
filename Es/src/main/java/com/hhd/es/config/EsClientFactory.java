@@ -10,6 +10,8 @@ import org.elasticsearch.client.sniff.SniffOnFailureListener;
 import org.elasticsearch.client.sniff.Sniffer;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+
 /**
  * Created by huhengda on 2021/1/18.
  */
@@ -21,6 +23,7 @@ public class EsClientFactory {
     private RestClientBuilder builder;
     private volatile RestHighLevelClient highClient;
     private RestClient restClient;
+    private Sniffer sniffer;
 
     private EsClientFactory() {}
 
@@ -59,7 +62,7 @@ public class EsClientFactory {
         SniffOnFailureListener sniffOnFailureListener = new SniffOnFailureListener();
         // 每个60s嗅探一次 默认5分钟 若失败 30s嗅探一次
         // https 需要setNodesSniffer
-        Sniffer sniffer = Sniffer.builder(restClientBuilder.build()).setSniffIntervalMillis(60000).setSniffAfterFailureDelayMillis(30000).build();
+        sniffer = Sniffer.builder(restClientBuilder.build()).setSniffIntervalMillis(60000).setSniffAfterFailureDelayMillis(30000).build();
         sniffOnFailureListener.setSniffer(sniffer);
         restClientBuilder.setFailureListener(sniffOnFailureListener);
 
@@ -91,5 +94,14 @@ public class EsClientFactory {
 //    @Bean
     public RestClient getLowLevelClient() {
         return restClient;
+    }
+
+    public void close() {
+        try {
+            sniffer.close();
+            restClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
