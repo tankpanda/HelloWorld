@@ -4,15 +4,10 @@ import com.google.gson.Gson;
 import com.hhd.es.bean.InventoryMat;
 import com.hhd.es.mapper.InventoryMatMapper;
 import com.hhd.es.repository.InventoryMatRepository;
-import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
@@ -22,21 +17,16 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.XContent;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.FuzzyQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-
-import static org.elasticsearch.action.support.WriteRequest.RefreshPolicy.IMMEDIATE;
 
 /**
  *
@@ -56,7 +46,7 @@ public class InventoryMatService {
 
     public void save2Es() throws Exception {
         List<InventoryMat> inventoryMats = inventoryMatMapper.listAll();
-        GetIndexRequest  getIndexRequest  = new GetIndexRequest(INDEX_NAME);
+        GetIndexRequest getIndexRequest = new GetIndexRequest(INDEX_NAME);
         boolean exists = restHighLevelClient.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
         if (!exists) {
             CreateIndexRequest createIndexRequest = new CreateIndexRequest(INDEX_NAME);
@@ -115,4 +105,8 @@ public class InventoryMatService {
         return restHighLevelClient.indices().exists(new GetIndexRequest(index), RequestOptions.DEFAULT);
     }
 
+    public List<InventoryMat> findByMatName(String matName, Pageable pageable) throws Exception {
+        List<InventoryMat> inventoryMats = inventoryMatRepository.findByMatName(matName, pageable);
+        return inventoryMats;
+    }
 }

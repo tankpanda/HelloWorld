@@ -5,9 +5,13 @@ import com.hhd.es.bean.InventoryMat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +53,14 @@ public class InventoryMatServiceTest {
         InventoryMat inventoryMat = inventoryMatService.getWithRepository(247L);
         System.out.println(inventoryMat);
     }
+
+    @Test
+    public void findByMatName() throws Exception {
+//        List<InventoryMat> inventoryMats = inventoryMatService.findByMatName("封闭", PageRequest.of(1, 10, Sort.by(Sort.Direction.ASC, "id")));
+        List<InventoryMat> inventoryMats = inventoryMatService.findByMatName("Clarity", PageRequest.of(1, 10, Sort.by(Sort.Direction.ASC, "id")));
+        System.out.println(inventoryMats);
+    }
+
+
 
 }
