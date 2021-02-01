@@ -1,7 +1,9 @@
 package com.hhd.algorithm.primary.class05;
 
+
 /**
  * 位运算 + - * /
+ * https://leetcode-cn.com/problems/divide-two-integers/
  * Created by huhengda on 2021/1/28.
  */
 public class Code02_BitAddSubMultiDiv {
@@ -91,7 +93,7 @@ public class Code02_BitAddSubMultiDiv {
             if (b == negNum(1)) {
                 return Integer.MAX_VALUE;
             } else {
-                int ans = div(add(a, 1), a);
+                int ans = div(add(a, 1), b);
                 return add(ans, div(sub(a, multi(ans, b)), b));
             }
         }
