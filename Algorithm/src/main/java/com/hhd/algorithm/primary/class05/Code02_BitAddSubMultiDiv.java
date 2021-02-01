@@ -68,16 +68,34 @@ public class Code02_BitAddSubMultiDiv {
      * @param b
      * @return
      */
-    public int divide(int a, int b) {
+    public int div(int a, int b) {
         int x = a < 0 ? add(~a, 1)  : a;
         int y = b < 0 ? add(~b, 1)  : b;
         int div = 0;
-        while (x != 0 && x > y) {
+        while (x != 0 && x >= y) {
             int n = getN(x, y);
             x = sub(x, y << n);
             div |= 1 << n;
         }
         return (a ^ b) < 0 ? add(~div, 1) : div;
+    }
+
+    public int divide(int a, int b) {
+        if (a == Integer.MIN_VALUE && b == Integer.MIN_VALUE) {
+            return 1;
+        }
+        if (b == Integer.MIN_VALUE) {
+            return 0;
+        }
+        if (a == Integer.MIN_VALUE) {
+            if (b == negNum(1)) {
+                return Integer.MAX_VALUE;
+            } else {
+                int ans = div(add(a, 1), a);
+                return add(ans, div(sub(a, multi(ans, b)), b));
+            }
+        }
+        return div(a, b);
     }
 
     private int getN(int a, int b) {
@@ -102,7 +120,7 @@ public class Code02_BitAddSubMultiDiv {
         return add(~n, 1);
     }
 
-    public int div(int a, int b) {
+    public int div1(int a, int b) {
         int x = isNeg(a) ? negNum(a) : a;
         int y = isNeg(b) ? negNum(b) : b;
         int res = 0;
@@ -130,11 +148,11 @@ public class Code02_BitAddSubMultiDiv {
             if (dividend == negNum(1)) {
                 return Integer.MAX_VALUE;
             } else {
-                int ans = div(add(dividend, 1), dividend);
-                return add(ans, div(sub(dividend, multi(ans, divisor)), divisor));
+                int ans = div1(add(dividend, 1), dividend);
+                return add(ans, div1(sub(dividend, multi(ans, divisor)), divisor));
             }
         }
-        return div(dividend, divisor);
+        return div1(dividend, divisor);
     }
     // ---- 第一种方式end ----
 }
