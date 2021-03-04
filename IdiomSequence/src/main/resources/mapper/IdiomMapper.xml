@@ -3,8 +3,8 @@
 <mapper namespace="com.hhd.idiom.mapper.IdiomMapper">
 
     <insert id="insert">
-        INSERT INTO idiom (idiom, pinyin, pinyin_tone_mark)
-        VALUE (#{idiom.idiom}, #{idiom.pinyin}, #{idiom.pinyinToneMark})
+        INSERT INTO idiom (idiom, pinyin, pinyin_tone_mark, pinyin_first_word)
+        VALUE (#{idiom.idiom}, #{idiom.pinyin}, #{idiom.pinyinToneMark}, #{idiom.pinyinFirstWord})
     </insert>
 
     <update id="update">
@@ -19,12 +19,15 @@
             <if test="idiom.pinyinToneMark != null and idiom.pinyinToneMark != ''">
                 pinyin_tone_mark = #{idiom.pinyinToneMark},
             </if>
+            <if test="idiom.pinyinFirstWord != null and idiom.pinyinFirstWord != ''">
+                pinyin_first_word = #{idiom.pinyinFirstWord},
+            </if>
         </set>
         WHERE id = #{idiom.id}
     </update>
 
     <select id="getList" resultType="com.hhd.idiom.bean.Idiom">
-        SELECT `id`, `idiom`, `pinyin`, `pinyin_tone_mark`
+        SELECT `id`, `idiom`, `pinyin`, `pinyin_tone_mark` AS pinyinToneMark
         FROM idiom
         <where>
             <if test="idiom.idiom != null and idiom.idiom != ''">
@@ -33,14 +36,24 @@
             <if test="idiom.pinyin != null and idiom.pinyin != ''">
                 pinyin LIKE  CONCAT(#{idiom.pinyin}, '%')
             </if>
+            <if test="idiom.pinyinFirstWord != null and idiom.pinyinFirstWord != ''">
+                pinyin_first_word = #{idiom.pinyinFirstWord}
+            </if>
         </where>
         LIMIT 0, 50
     </select>
 
     <select id="getListWithToneMarkNull" resultType="com.hhd.idiom.bean.Idiom">
-        SELECT `id`, `idiom`, `pinyin`, `pinyin_tone_mark`
+        SELECT `id`, `idiom`, `pinyin`, `pinyin_tone_mark`, pinyin_first_word
         FROM idiom
         WHERE pinyin_tone_mark IS NULL
+        LIMIT 0, 1000
+    </select>
+
+    <select id="getListWithFistWordNull" resultType="com.hhd.idiom.bean.Idiom">
+        SELECT `id`, `idiom`, `pinyin`, `pinyin_tone_mark`, pinyin_first_word
+        FROM idiom
+        WHERE pinyin_first_word IS NULL
         LIMIT 0, 1000
     </select>
 

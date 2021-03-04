@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>成语接龙</title>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <input type="text" id="pinyin">
+        <div id="result"></div>
+    </body>
+    <script>
+        var old = "";
+        $("#pinyin").keyup(function() {
+            old = $("#pinyin").val();
+            setTimeout(function() {
+                var value=$("#pinyin").val();
+                if (old == value) {
+                    var url = "idiom/getList?pinyin=" + value;
+                    $.get(url, function(data) {
+                        $("#result").empty();
+                        for (let i = 0; i < data.length; i++) {
+                            $("#result").append("<div>" + data[i].idiom + " " + data[i].pinyin + "</div>");
+                        }
+                        $("#pinyin").val("");
+                    });
+                }
+            }, 1000);
+        });
+
+    </script>
+</html>

@@ -2,7 +2,6 @@ package com.hhd.idiom.service;
 
 import com.hhd.idiom.bean.Idiom;
 import com.hhd.idiom.utils.PinyinUtils;
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -31,6 +30,10 @@ public class IdiomServiceTest {
     @Test
     public void testUpdateToneMark() throws Exception {
         idiomService.updateToneMark();
+    }
+    @Test
+    public void testUpdateFirstWord() throws Exception {
+        idiomService.updateFirstWord();
     }
 
 

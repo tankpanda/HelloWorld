@@ -5,6 +5,9 @@ spring:
     password: 123456
     username: panda
     driver-class-name: com.mysql.cj.jdbc.Driver
+  web:
+    resources:
+      static-locations: classpath:/web/
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml

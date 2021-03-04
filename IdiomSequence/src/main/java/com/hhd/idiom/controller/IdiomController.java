@@ -23,7 +23,7 @@ public class IdiomController {
     @GetMapping("getList")
     public List<Idiom> getList(@Param("pinyin") String pinyin) {
         Idiom idiom = new Idiom();
-        idiom.setPinyin(pinyin);
+        idiom.setPinyinFirstWord(pinyin);
         return idiomService.getList(idiom);
     }
 

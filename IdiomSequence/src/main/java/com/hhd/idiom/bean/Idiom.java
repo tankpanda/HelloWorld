@@ -11,4 +11,5 @@ public class Idiom {
     private String idiom;
     private String pinyin;
     private String pinyinToneMark;
+    private String pinyinFirstWord;
 }

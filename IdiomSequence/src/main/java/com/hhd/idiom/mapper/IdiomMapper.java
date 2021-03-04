@@ -18,4 +18,6 @@ public interface IdiomMapper {
     List<Idiom> getList(@Param("idiom") Idiom idiom);
 
     List<Idiom> getListWithToneMarkNull();
+
+    List<Idiom> getListWithFistWordNull();
 }

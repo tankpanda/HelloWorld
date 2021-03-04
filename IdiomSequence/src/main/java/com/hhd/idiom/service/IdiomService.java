@@ -48,6 +48,19 @@ public class IdiomService {
         }
     }
 
+    public void updateFirstWord() {
+        for (;;) {
+            List<Idiom> idioms = idiomMapper.getListWithFistWordNull();
+            if (idioms.isEmpty()) {
+                break;
+            }
+            idioms.forEach(idiom -> {
+                idiom.setPinyinFirstWord(PinyinUtils.getAllPinyin(idiom.getIdiom().substring(0, 1)));
+                idiomMapper.update(idiom);
+            });
+        }
+    }
+
     public Boolean insertWithRobot() throws Exception {
         for (int i = 1490; i < 1491; i++) {
             System.out.println(i);
