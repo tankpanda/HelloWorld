@@ -35,6 +35,19 @@ public class IdiomService {
         return idiomMapper.getList(idiom);
     }
 
+    public void updateToneMark() {
+        for (;;) {
+            List<Idiom> idioms = idiomMapper.getListWithToneMarkNull();
+            if (idioms.isEmpty()) {
+                break;
+            }
+            idioms.forEach(idiom -> {
+                idiom.setPinyinToneMark(PinyinUtils.getAllPinyin(idiom.getIdiom()));
+                idiomMapper.update(idiom);
+            });
+        }
+    }
+
     public Boolean insertWithRobot() throws Exception {
         for (int i = 1490; i < 1491; i++) {
             System.out.println(i);

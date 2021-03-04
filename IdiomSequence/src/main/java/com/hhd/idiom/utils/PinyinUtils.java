@@ -30,7 +30,7 @@ public class PinyinUtils {
          * WITH_TONE_NUMBER：1-4数字表示音标
          * WITHOUT_TONE：没有音标
          */
-        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
 
         /**
          * 特殊音标ü设置
@@ -39,7 +39,7 @@ public class PinyinUtils {
          * WITH_U_AND_COLON：用"u:"表示ü
          * WITH_U_UNICODE：直接用ü
          */
-        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+        format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 
         char[] hanYuArr = hanzi.trim().toCharArray();
         StringBuilder pinYin = new StringBuilder();

@@ -28,6 +28,10 @@ public class IdiomServiceTest {
     public void testInsertWithRobot() throws Exception {
         idiomService.insertWithRobot();
     }
+    @Test
+    public void testUpdateToneMark() throws Exception {
+        idiomService.updateToneMark();
+    }
 
 
 }

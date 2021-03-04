@@ -10,4 +10,5 @@ public class Idiom {
     private Integer id;
     private String idiom;
     private String pinyin;
+    private String pinyinToneMark;
 }

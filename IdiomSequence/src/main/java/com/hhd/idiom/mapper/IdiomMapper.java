@@ -16,4 +16,6 @@ public interface IdiomMapper {
     Integer update(@Param("idiom") Idiom idiom);
 
     List<Idiom> getList(@Param("idiom") Idiom idiom);
+
+    List<Idiom> getListWithToneMarkNull();
 }
