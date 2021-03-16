@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,10 @@ import java.util.stream.Collectors;
 public class IdiomExcelService {
 
     private Map<String, List<Idiom>> idiomMap;
-    private Long lastQuery;
+
+    private AtomicInteger times = new AtomicInteger(0);
+
+//    private Long lastQuery;
     private static final Long CACHE_TIME = 10L;
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
@@ -35,7 +39,10 @@ public class IdiomExcelService {
     }
 
     private void clear() {
-        if (System.currentTimeMillis() - lastQuery >= CACHE_TIME) {
+//        if (System.currentTimeMillis() - lastQuery >= CACHE_TIME) {
+//            idiomMap = null;
+//        }
+        if (times.decrementAndGet() == 0) {
             idiomMap = null;
         }
     }
@@ -44,7 +51,8 @@ public class IdiomExcelService {
         if (idiomMap == null) {
             init();
         }
-        lastQuery = System.currentTimeMillis();
+//        lastQuery = System.currentTimeMillis();
+        times.incrementAndGet();
         executor.schedule(() -> clear(), CACHE_TIME, TimeUnit.SECONDS);
         return idiomMap.get(idiom.getPinyinFirstWord()).stream().limit(50).collect(Collectors.toList());
     }
