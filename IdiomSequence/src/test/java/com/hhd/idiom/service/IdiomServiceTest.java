@@ -16,14 +16,6 @@ public class IdiomServiceTest {
     private IdiomService idiomService;
 
     @Test
-    public void testInsert() {
-        Idiom idiom = new Idiom();
-        idiom.setIdiom("是哈哈哈");
-        idiom.setPinyin(PinyinUtils.getAllPinyin(idiom.getIdiom()));
-        idiomService.insert(idiom);
-    }
-
-    @Test
     public void testInsertWithRobot() throws Exception {
         idiomService.insertWithRobot();
     }
@@ -34,6 +26,10 @@ public class IdiomServiceTest {
     @Test
     public void testUpdateFirstWord() throws Exception {
         idiomService.updateFirstWord();
+    }
+    @Test
+    public void testUpdatePinyin() throws Exception {
+        idiomService.updatePinyin();
     }
 
 

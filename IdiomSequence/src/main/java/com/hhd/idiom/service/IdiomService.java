@@ -7,6 +7,7 @@ import com.hhd.idiom.bean.BaiduIdiomResult;
 import com.hhd.idiom.bean.BaiduIdiomResultResult;
 import com.hhd.idiom.bean.Idiom;
 import com.hhd.idiom.mapper.IdiomMapper;
+import com.hhd.idiom.pinyin4j.Pinyin4j;
 import com.hhd.idiom.utils.HttpUtils;
 import com.hhd.idiom.utils.PinyinUtils;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,22 @@ public class IdiomService {
             }
             idioms.forEach(idiom -> {
                 idiom.setPinyinFirstWord(PinyinUtils.getAllPinyin(idiom.getIdiom().substring(0, 1)));
+                idiomMapper.update(idiom);
+            });
+        }
+    }
+
+    public void updatePinyin() {
+        Pinyin4j p = new Pinyin4j();
+        for (;;) {
+            List<Idiom> idioms = idiomMapper.getListWithFistWordNull();
+            if (idioms.isEmpty()) {
+                break;
+            }
+            idioms.forEach(idiom -> {
+                String pinyin = p.getPinyin(idiom.getIdiom());
+//                idiom.setPinyin(pinyin.replaceAll(" ",""));
+                idiom.setPinyinFirstWord(pinyin.substring(0, pinyin.indexOf(" ")));
                 idiomMapper.update(idiom);
             });
         }

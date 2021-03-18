@@ -1,12 +1,12 @@
 package com.hhd.idiom.utils;
 
+import com.hhd.idiom.pinyin4j.Pinyin4j;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
 
 /**
 * Created by huhengda on 2021/3/1.
@@ -88,5 +88,8 @@ public class PinyinUtils {
         String firstPinYin = getFirstPinYin("秋水共长天一色");
         System.out.println("秋水共长天一色全拼："+pinYin);
         System.out.println("秋水共长天一色首字母："+firstPinYin);
+
+        final Pinyin4j pinyin4j = new Pinyin4j();
+        System.out.println(pinyin4j.getPinyin("秋水共长天一色"));
     }
 }
