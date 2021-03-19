@@ -11,4 +11,4 @@
 通过pinyin4j组件 分别获取全拼 首字全拼及带音标的全拼
 ## 多音字
 通过多音字词典/resources/dic/duoyinzi.dic 及自己实现的pinyin4j包下的代码实现多音字拼音替换 可自行添加多音字词典数据  
-已知bug 无法获取多音字带音标的全拼 修复思路 在词典中标志音标 根据toneType=WITH_TONE_NUMBER获取的数字音标分别替换拼音及元音字母的音标
+已知bug 无法获取多音字带音标的全拼 修复思路 在词典中标注音标 根据toneType=WITH_TONE_NUMBER获取的数字音标分别替换拼音及元音字母的音标
