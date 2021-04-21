@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shiro_demo
+    username: panda
+    password: 123456
+mybatis:
+  type-aliases-package: com.hhd.shiro.bean
+  mapper-locations: classpath*:mapper/*Mapper.xml
